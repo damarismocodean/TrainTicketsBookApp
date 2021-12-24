@@ -19,7 +19,6 @@ from Home import views
 app_name='Home'
 urlpatterns = [
     path('Admin/', admin.site.urls),
-    path('', views.LogIn, name='LogIn'),
-    path('Register/', views.Register, name="Register"),
+    path('', views.register_or_login, name='register login'),
     path('Home/', include('Home.urls'), name="Home"),
 ]

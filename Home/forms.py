@@ -2,8 +2,8 @@ from django.contrib.auth.models import User
 from django import forms
 
 class LoginUser(forms.Form):
-    username = forms.CharField(max_length=100)
-    password = forms.CharField(max_length=20, widget=forms.PasswordInput())
+    usernameLog = forms.CharField(max_length=100)
+    passwordLog = forms.CharField(max_length=20, widget=forms.PasswordInput())
 
 class RegisterUser(forms.ModelForm):
     name = forms.CharField(required=True)
