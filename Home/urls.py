@@ -8,4 +8,5 @@ urlpatterns = [
     path('',views.GetHome,name="Home"),
     path('AddStation/', basefeatures_views.add_new_station),
     path('AddTrain/', basefeatures_views.add_new_train),
+    path('AddRoute/', basefeatures_views.add_new_route),
 ]
