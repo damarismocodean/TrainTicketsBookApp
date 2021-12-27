@@ -11,9 +11,16 @@ class Route(models.Model):
     startStationID = models.ForeignKey('Station', related_name="startStation", on_delete=models.CASCADE)
     destinationStationID = models.ForeignKey('Station', related_name="destinationStation", on_delete=models.CASCADE)
 
+    @property
+    def route_name(self):
+        return '%s-%s' % (self.startStationID, self.destinationStationID)
+
 
 class Station(models.Model):
     stationName = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.stationName
 
 
 class PlanRoute(models.Model):
@@ -21,5 +28,4 @@ class PlanRoute(models.Model):
     startTime = models.CharField(max_length=100)
     arrivalTime = models.CharField(max_length=100)
     date = models.CharField(max_length=100)
-    price = models.DecimalField(max_digits=5,decimal_places=2)
-
+    price = models.DecimalField(max_digits=5, decimal_places=2)

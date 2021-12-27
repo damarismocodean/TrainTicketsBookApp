@@ -28,6 +28,7 @@
                         <form action="" method="POST">
                             {% csrf_token %}
                             <div class="login">
+                                <br>
                                 <div class="group"> <label class="label">Train Name</label><select name="trainName" type="text" class="input" placeholder="Enter train name" required="">
                                                                                            {%for i in trains%}
                                                                                            <option value="{{i.id}}">{{i.trainName}}</option>
