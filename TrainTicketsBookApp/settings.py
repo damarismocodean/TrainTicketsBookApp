@@ -80,7 +80,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'TrainSystemDatabase',
         'USER': 'postgres',
-        'PASSWORD': 'root',
+        'PASSWORD': 'postgrest',
         'HOST': 'localhost',
         'PORT': '5432',
     }
