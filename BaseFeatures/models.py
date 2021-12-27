@@ -21,4 +21,5 @@ class PlanRoute(models.Model):
     startTime = models.CharField(max_length=100)
     arrivalTime = models.CharField(max_length=100)
     date = models.CharField(max_length=100)
+    price = models.DecimalField(max_digits=5,decimal_places=2)
 
