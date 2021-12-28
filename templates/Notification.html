@@ -1,0 +1,50 @@
+{% extends 'Base.html' %}
+
+{%block style%}
+
+<style>
+.login-box {
+    width: 100%;
+    margin: auto;
+    max-width: 525px;
+    min-height: 700px;
+    position: relative;
+    width: 600px;
+    box-shadow: 0 12px 15px 0 rgba(0, 0, 0, .24), 0 17px 50px 0 rgba(0, 0, 0, .19)
+}
+</style>
+{%endblock style%}
+
+
+{% block content %}
+
+
+    <section id="service" class="section-padding">
+        <center><form action="" method="post">
+            {%csrf_token%}
+        <div class="card">
+            <div class="login-box">
+                <div class="login-snip"> <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Notifications</label> <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab"></label>
+                    <div class="login-space">
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <div class="login">
+                                <br>
+                                <div class="group"> <label class="label">Notifications</label><select name="message" type="text" class="input"  required="">
+                                                                                           {%for i in notifications%}
+                                                                                           <option value="{{i.id}}">{{i.message}}</option>
+                                                                                           {%endfor%}
+                                                                                           </select> </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </form></center>
+    </section>
+
+
+{% endblock %}

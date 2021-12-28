@@ -21,3 +21,13 @@ class AddNewPlanRoute(forms.Form):
     arrivalTime = forms.TimeField()
     date = forms.DateField()
     price = forms.DecimalField(max_digits=5, decimal_places=2)
+
+
+class AddNewPayment(forms.Form):
+    cardName = forms.CharField(max_length=50)
+    cardNumber = forms.CharField(max_length=50)
+    expirationDate = forms.CharField(max_length=50)
+    cvv = forms.CharField(max_length=3)
+
+class AddNewNotification(forms.Form):
+    message = forms.CharField(max_length=1000)

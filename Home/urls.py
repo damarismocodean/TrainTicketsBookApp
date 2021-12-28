@@ -10,4 +10,6 @@ urlpatterns = [
     path('AddTrain/', basefeatures_views.add_new_train),
     path('AddRoute/', basefeatures_views.add_new_route),
     path('AddPlanRoute/', basefeatures_views.add_new_plan_route),
+    path('Payment/',basefeatures_views.add_new_payment_card),
+    path('Notification/',basefeatures_views.add_notification),
 ]

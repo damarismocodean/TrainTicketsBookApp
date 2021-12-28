@@ -1,12 +1,12 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .forms import AddNewStation, AddNewTrain, AddNewRoute, AddNewPlanRoute
+from Home.models import Person
+from .forms import AddNewStation, AddNewTrain, AddNewRoute, AddNewPlanRoute, AddNewPayment,AddNewNotification
 from django.template import loader
-from .models import Station, Train, Route, PlanRoute
+from .models import Station, Train, Route, PlanRoute, PaymentUser, Booking, NotificationsUser
 
 
 # Create your views here.
-
 
 def add_new_station(request):
     template = loader.get_template('AddStation.html')
@@ -59,7 +59,6 @@ def add_new_plan_route(request):
     if request.method == 'POST':
         form = AddNewPlanRoute(request.POST)
         if form.is_valid():
-            print("valid form")
             data = form.cleaned_data
             plan_route = PlanRoute()
             plan_route.routeID = Route.objects.get(pk=data['routeID'])
@@ -68,7 +67,47 @@ def add_new_plan_route(request):
             plan_route.date = data['date']
             plan_route.price = data['price']
             plan_route.save()
+
+            """parte de notificari"""
+            notification = NotificationsUser()
+            notification.userID = Person.objects.get(id=1)
+            notification.message = "Added a new route"
+            notification.save()
+
         else:
-            return HttpResponse('<h1>Invalid Data</h1>')
+                return HttpResponse('<h1>Invalid Data</h1>')
     routes = Route.objects.all()
     return HttpResponse(template.render({'routes': routes}, request))
+
+def add_new_payment_card(request):
+    template = loader.get_template('Payment.html')
+    if request.method == 'POST':
+        form = AddNewPayment(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            payment = PaymentUser()
+            if request.user.is_authenticated:
+                payment.userID=Person.objects.get(pk=request.user.id-1)
+                payment.cardName=data['cardName']
+                payment.cardNumber=data['cardNumber']
+                payment.expirationDate=data['expirationDate']
+                payment.cvv=data['cvv']
+                payment.save()
+            else:
+                print("the user is not authenticated")
+        else:
+            return HttpResponse('<h1>Invalid Data</h1>')
+    return HttpResponse(template.render({}, request))
+
+
+def add_notification(request):
+    template = loader.get_template('Notification.html')
+    if request.method == 'POST':
+        form = AddNewNotification(request.POST)
+        if form.is_valid():
+            print("is valid")
+        else:
+            return HttpResponse('<h1>Invalid Data</h1>')
+    person = Person.objects.get(pk=request.user.id - 1)
+    notifications = NotificationsUser.objects.all().filter(userID=person)
+    return HttpResponse(template.render({'notifications': notifications}, request))
