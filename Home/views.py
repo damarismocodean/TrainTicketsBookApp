@@ -52,4 +52,3 @@ def register_or_login(request):
             return HttpResponse('<h1>Invalid Data Registration</h1>')
 
     return HttpResponse(template.render({}, request))
-

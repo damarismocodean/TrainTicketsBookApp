@@ -1,7 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from Home.models import Person
-from .forms import AddNewStation, AddNewTrain, AddNewRoute, AddNewPlanRoute, AddNewPayment,AddNewNotification
+from .forms import AddNewStation, AddNewTrain, AddNewRoute, AddNewPlanRoute, AddNewPayment, AddNewNotification, \
+    DeleteTrain, ModifyTrain
 from django.template import loader
 from .models import Station, Train, Route, PlanRoute, PaymentUser, Booking, NotificationsUser
 
@@ -75,9 +76,10 @@ def add_new_plan_route(request):
             notification.save()
 
         else:
-                return HttpResponse('<h1>Invalid Data</h1>')
+            return HttpResponse('<h1>Invalid Data</h1>')
     routes = Route.objects.all()
     return HttpResponse(template.render({'routes': routes}, request))
+
 
 def add_new_payment_card(request):
     template = loader.get_template('Payment.html')
@@ -87,11 +89,11 @@ def add_new_payment_card(request):
             data = form.cleaned_data
             payment = PaymentUser()
             if request.user.is_authenticated:
-                payment.userID=Person.objects.get(pk=request.user.id-1)
-                payment.cardName=data['cardName']
-                payment.cardNumber=data['cardNumber']
-                payment.expirationDate=data['expirationDate']
-                payment.cvv=data['cvv']
+                payment.userID = Person.objects.get(pk=request.user.id - 1)
+                payment.cardName = data['cardName']
+                payment.cardNumber = data['cardNumber']
+                payment.expirationDate = data['expirationDate']
+                payment.cvv = data['cvv']
                 payment.save()
             else:
                 print("the user is not authenticated")
@@ -111,3 +113,30 @@ def add_notification(request):
     person = Person.objects.get(pk=request.user.id - 1)
     notifications = NotificationsUser.objects.all().filter(userID=person)
     return HttpResponse(template.render({'notifications': notifications}, request))
+
+
+def view_trains(request):
+    template = loader.get_template('ViewTrains.html')
+    if request.method == 'POST':
+        if 'modify' in request.POST:
+            delete_form = DeleteTrain()
+            modify_form = ModifyTrain(request.POST)
+            if modify_form.is_valid():
+                data = modify_form.cleaned_data
+                id = data['hiddenId']
+                t = Train.objects.get(pk=id)
+                t.trainName = data['trainNameModify']
+                t.save()
+            else:
+                return HttpResponse('<h1>Invalid Data</h1>')
+        elif 'delete' in request.POST:
+            modify_form = ModifyTrain()
+            delete_form = DeleteTrain(request.POST)
+            if delete_form.is_valid():
+                data = delete_form.cleaned_data
+                t = Train.objects.get(trainName=data['trainNameDelete'])
+                t.delete()
+            else:
+                return HttpResponse('<h1>Invalid Data</h1>')
+    trains = Train.objects.all()
+    return HttpResponse(template.render({'trains': trains}, request))

@@ -29,5 +29,15 @@ class AddNewPayment(forms.Form):
     expirationDate = forms.CharField(max_length=50)
     cvv = forms.CharField(max_length=3)
 
+
 class AddNewNotification(forms.Form):
     message = forms.CharField(max_length=1000)
+
+
+class ModifyTrain(forms.Form):
+    hiddenId = forms.CharField(widget=forms.HiddenInput())
+    trainNameModify = forms.CharField(max_length=100)
+
+
+class DeleteTrain(forms.Form):
+    trainNameDelete = forms.CharField(max_length=100)

@@ -1,0 +1,63 @@
+
+.selected {
+    background-color: brown;
+    color: #FFF;
+}
+
+
+.btn-select{
+	margin-top: 5px;
+	margin-bottom: 15px;
+	padding: 10px 20px;
+	font-size: 12px;
+	background-color: rgba(106, 111, 140, 0.91);
+	border-radius: 3px;
+	color: #fff;
+}
+
+.btn-select:hover, .btn-select:focus{
+    margin-top: 5px;
+    margin-bottom: 15px;
+	padding: 10px 20px;
+	font-size: 12px;
+	background-color: rgba(139, 145, 179, 0.91);
+	border-radius: 3px;
+	color: #fff;
+}
+
+.box {
+    width: 100%;
+    margin: auto;
+    padding: 10px 10px 10px 10px;
+    background-color: rgba(28,74,90, .9);
+    position: relative;
+    box-shadow: 0 12px 15px 0 rgba(0, 0, 0, .24), 0 17px 50px 0 rgba(0, 0, 0, .19)
+}
+
+table {
+	border-collapse: collapse;
+	overflow: hidden;
+	box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+th,
+td {
+	padding: 15px;
+	background-color: rgba(255,255,255,0.2);
+	color: #fff;
+}
+
+th {
+	text-align: left;
+	background-color: rgba(28,74,90, .7);
+}
+
+thead {
+	th {
+		background-color: rgba(28,74,90, .9);
+	}
+}
+
+tr:hover {
+	background-color: rgb(28,74,90);
+}
