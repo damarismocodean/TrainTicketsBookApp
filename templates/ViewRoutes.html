@@ -1,0 +1,156 @@
+{% extends 'Base.html' %}
+
+{%block style%}
+
+{% load static %}
+  <link rel="stylesheet" type="text/css" href="{%static 'css/table.css'%}">
+
+<style>
+
+table {
+	width: 600px;
+}
+
+.box {
+    max-width: 650px;
+    min-height: 180px;
+}
+
+.login-box {
+    max-width: 590px;
+    min-height: 600px;
+}
+.button-select {
+  line-height: 1;
+  display: inline-block;
+  font-size: 1.2rem;
+  text-decoration: none;
+  border-radius: 5px;
+  color: #fff;
+  padding: 8px;
+  background-color: darken($subtle,5%);
+}
+</style>
+
+
+{%endblock%}
+
+{%block content%}
+<section id="service" class="section-padding">
+
+
+    <div class="box">
+        <center>
+            <table >
+                <thead>
+                <tr>
+                    <th>Route</th>
+                    <th>Select</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for i in routes %}
+                <tr>
+                    <td class="routeName">{{i.route_name}}</td>
+                    <td class="nameTrain">{{i.trainID.trainName}}</td>
+                    <td class="nameStation1">{{i.startStationID.stationName}}</td>
+                    <td class="nameStation2">{{i.destinationStationID.stationName}}</td>
+                    <td> <button class="btn btn-select" onclick="myFunction(this, {{i.id}})">Select</button> </td>
+                </tr>
+                {% endfor %}
+
+
+
+                </tbody>
+            </table>
+        </center>
+    </div>
+
+    <br>
+    <br>
+
+    <center>
+
+        <div class="card">
+            <div class="login-box">
+                <div class="login-snip"><input id="tab-1" type="radio" name="tab" class="sign-in"
+                                               checked><label for="tab-1" class="tab">MODIFY</label>
+                    <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2"
+                                                                                     class="tab">DELETE</label>
+                    <div class="login-space">
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <div class="login">
+                                <input class="input" type="hidden" id="hiddenId" name="hiddenId"  value="2" />
+                                <br>
+                                <div class="group"><label class="label">Train Name</label>
+                                        <input id="trainNameModify"
+                                        name="trainNameModify" type="text" class="input"
+                                        placeholder="Enter new train name" required="">
+                                </div>
+                                <br>
+                                <div class="group"><label class="label">Start Station Name</label>
+                                        <input id="startStationNameModify"
+                                        name="startStationNameModify" type="text" class="input"
+                                        placeholder="Enter new start station name" required=""></div>
+                                <br>
+                                <div class="group"><label class="label">Destination Station Name</label>
+                                        <input id="destinationStationNameModify"
+                                        name="destinationStationNameModify" type="text" class="input"
+                                        placeholder="Enter new destination station name" required=""></div>
+                                <br>
+                                <div class="group"><input type="submit" name="modify" class="button"
+                                                          value="MODIFY"></div>
+                            </div>
+                        </form>
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <div class="sign-up-form">
+                                <br>
+                                 <div class="group"><label class="label">Route Name</label>
+                                        <input id="routeNameDelete"
+                                        name="routeNameDelete" type="text" class="input"
+                                        placeholder="Enter route name" required=""></div>
+                                <br>
+                                <div class="group"><input type="submit" name="delete" class="button"
+                                                          value="Delete"></div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </center>
+
+
+
+</section>
+
+<script>
+
+    function myFunction(element, id) {
+        var $row = $(element).closest("tr");    // Find the row
+        var $text1 = $row.find(".nameTrain").text(); // Find the text
+        var i1 = document.getElementById('trainNameModify');
+        i1.value = $text1
+
+        var $text2 = $row.find(".nameStation1").text(); // Find the text
+        var i2 = document.getElementById('startStationNameModify');
+        i2.value = $text2
+
+        var $text3 = $row.find(".nameStation2").text(); // Find the text
+        var i3 = document.getElementById('destinationStationNameModify');
+        i3.value = $text3
+
+        var $text = $row.find(".routeName").text(); // Find the text
+        var j = document.getElementById('routeNameDelete');
+        j.value = $text
+
+        var k = document.getElementById('hiddenId');
+        k.value = id
+}
+</script>
+{%endblock%}

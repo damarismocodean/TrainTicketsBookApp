@@ -41,3 +41,19 @@ class ModifyTrain(forms.Form):
 
 class DeleteTrain(forms.Form):
     trainNameDelete = forms.CharField(max_length=100)
+
+class ModifyStation(forms.Form):
+    hiddenId = forms.CharField(widget=forms.HiddenInput())
+    stationNameModify = forms.CharField(max_length=100)
+
+class DeleteStation(forms.Form):
+    stationNameDelete = forms.CharField(max_length=100)
+
+class ModifyRoute(forms.Form):
+    hiddenId = forms.CharField(widget=forms.HiddenInput())
+    trainNameModify = forms.CharField(max_length=100)
+    startStationNameModify = forms.CharField(max_length=100)
+    destinationStationNameModify = forms.CharField(max_length=100)
+
+class DeleteRoute(forms.Form):
+    routeNameDelete=forms.CharField(max_length=100)

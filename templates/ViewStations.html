@@ -1,0 +1,131 @@
+{% extends 'Base.html' %}
+
+{%block style%}
+
+{% load static %}
+  <link rel="stylesheet" type="text/css" href="{%static 'css/table.css'%}">
+
+<style>
+
+table {
+	width: 280px;
+}
+
+.box {
+    max-width: 300px;
+    min-height: 180px;
+}
+
+.login-box {
+    max-width: 525px;
+    min-height: 400px;
+}
+.button-select {
+  line-height: 1;
+  display: inline-block;
+  font-size: 1.2rem;
+  text-decoration: none;
+  border-radius: 5px;
+  color: #fff;
+  padding: 8px;
+  background-color: darken($subtle,5%);
+}
+</style>
+
+
+{%endblock%}
+
+{%block content%}
+<section id="service" class="section-padding">
+
+
+    <div class="box">
+        <center>
+            <table >
+                <thead>
+                <tr>
+                    <th>Station Name</th>
+                    <th>Select</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for i in stations %}
+                <tr>
+                    <td class="name">{{i.stationName}}</td>
+                    <td> <button class="btn btn-select" onclick="myFunction(this, {{i.id}})">Select</button> </td>
+                </tr>
+                {% endfor %}
+
+
+
+                </tbody>
+            </table>
+        </center>
+    </div>
+
+    <br>
+    <br>
+
+    <center>
+
+        <div class="card">
+            <div class="login-box">
+                <div class="login-snip"><input id="tab-1" type="radio" name="tab" class="sign-in"
+                                               checked><label for="tab-1" class="tab">MODIFY</label>
+                    <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2"
+                                                                                     class="tab">DELETE</label>
+                    <div class="login-space">
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <div class="login">
+                                <input class="input" type="hidden" id="hiddenId" name="hiddenId"  value="2" />
+                                <br>
+                                <div class="group"><label class="label">Station Name</label> <input id="stationNameModify"
+                                        name="stationNameModify" type="text" class="input"
+                                        placeholder="Enter new station name" required=""></div>
+                                <br>
+                                <div class="group"><input type="submit" name="modify" class="button"
+                                                          value="MODIFY"></div>
+                            </div>
+                        </form>
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <div class="sign-up-form">
+                                <br>
+                                <div class="group"><label class="label">Station Name</label> <input id="stationNameDelete"
+                                        name="stationNameDelete" type="text" class="input"
+                                        placeholder="Enter station name" required=""></div>
+                                <br>
+                                <div class="group"><input type="submit" name="delete" class="button"
+                                                          value="Delete"></div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </center>
+
+
+
+</section>
+
+<script>
+
+    function myFunction(element, id) {
+        var $row = $(element).closest("tr");    // Find the row
+        var $text = $row.find(".name").text(); // Find the text
+        var i = document.getElementById('stationNameModify');
+        i.value = $text
+
+        var j = document.getElementById('stationNameDelete');
+        j.value = $text
+
+        var k = document.getElementById('hiddenId');
+        k.value = id
+}
+</script>
+{%endblock%}

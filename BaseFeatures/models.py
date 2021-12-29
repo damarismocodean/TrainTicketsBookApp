@@ -52,15 +52,17 @@ class RouteConcreteSubject(Subject):
 # Create your models here.
 class Train(models.Model):
     trainName = models.CharField(max_length=100)
+    def __str__(self):
+        return self.trainName
 
 class Route(models.Model):
-    trainID = models.ForeignKey('Train', on_delete=models.CASCADE)
+    trainID = models.ForeignKey('Train',on_delete=models.CASCADE)
     startStationID = models.ForeignKey('Station', related_name="startStation", on_delete=models.CASCADE)
     destinationStationID = models.ForeignKey('Station', related_name="destinationStation", on_delete=models.CASCADE)
 
     @property
     def route_name(self):
-        return '%s-%s' % (self.startStationID, self.destinationStationID)
+        return '%s-%s-%s' % (self.trainID,self.startStationID, self.destinationStationID)
 
 class Station(models.Model):
     stationName = models.CharField(max_length=100)
