@@ -1,0 +1,178 @@
+{% extends 'Base.html' %}
+
+{%block style%}
+
+{% load static %}
+  <link rel="stylesheet" type="text/css" href="{%static 'css/table.css'%}">
+
+<style>
+
+table {
+	width: 280px;
+}
+
+.box {
+    max-width: 700px;
+    min-height: 180px;
+}
+
+.login-box {
+    max-width: 525px;
+    min-height: 770px;
+}
+.button-select {
+  line-height: 1;
+  display: inline-block;
+  font-size: 1.2rem;
+  text-decoration: none;
+  border-radius: 5px;
+  color: #fff;
+  padding: 8px;
+  background-color: darken($subtle,5%);
+}
+</style>
+
+
+{%endblock%}
+
+{%block content%}
+<section id="service" class="section-padding">
+
+
+    <div class="box">
+        <center>
+            <table >
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>Email</th>
+                    <th>Number</th>
+                    <th>Select</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for i in users %}
+                <tr>
+                    <td class="name">{{i.name}}</td>
+                    <td class="username">{{i.username}}</td>
+                    <td class="password">{{i.password}}</td>
+                    <td class="email">{{i.email}}</td>
+                    <td class="number">{{i.number}}</td>
+                    <td> <button class="btn btn-select" onclick="myFunction(this, {{i.id}})">Select</button> </td>
+                </tr>
+                {% endfor %}
+
+
+
+                </tbody>
+            </table>
+        </center>
+    </div>
+
+    <br>
+    <br>
+
+    <center>
+
+        <div class="card">
+            <div class="login-box">
+                <div class="login-snip"><input id="tab-1" type="radio" name="tab" class="sign-in"
+                                               checked><label for="tab-1" class="tab">MODIFY</label>
+                    <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2"
+                                                                                     class="tab">DELETE</label>
+                    <div class="login-space">
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <div class="login">
+                                <input class="input" type="hidden" id="hiddenId" name="hiddenId"  value="2" />
+
+                                <br>
+                                <div class="group"><label class="label">Name</label> <input id="nameModify"
+                                        name="nameModify" type="text" class="input"
+                                        placeholder="Enter name" required=""></div>
+                                <br>
+                                <div class="group"><label class="label">Username</label> <input id="usernameModify"
+                                        name="usernameModify" type="text" class="input"
+                                        placeholder="Enter username" required=""></div>
+                                <br>
+                                <div class="group"><label class="label">Password</label> <input id="passwordModify"
+                                        name="passwordModify" type="text" class="input"
+                                        placeholder="Enter password" required=""></div>
+                                <br>
+                                <div class="group"><label class="label">Email</label> <input id="emailModify"
+                                        name="emailModify" type="email" class="input"
+                                        placeholder="Enter email" required=""></div>
+                                <br>
+                                <div class="group"><label class="label">Number</label> <input id="numberModify"
+                                        name="numberModify" type="text" class="input"
+                                        placeholder="Enter number" required=""></div>
+                                <br>
+                                <div class="group"><input type="submit" name="modify" class="button"
+                                                          value="MODIFY"></div>
+                            </div>
+                        </form>
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <div class="sign-up-form">
+                                <br>
+                                <div class="group"><label class="label">Username</label> <input id="usernameDelete"
+                                        name="usernameDelete" type="text" class="input"
+                                        placeholder="Enter username to delete" required=""></div>
+                                <br>
+                                <div class="group"><input type="submit" name="delete" class="button"
+                                                          value="DELETE"></div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </center>
+
+
+
+</section>
+
+<script>
+
+    function myFunction(element, id) {
+
+        var $row = $(element).closest("tr");
+        var $text1 = $row.find(".name").text();
+
+        document.getElementById('usernameDelete').readOnly = false;
+
+        var name = document.getElementById('nameModify');
+        name.value = $text1
+
+        var $text2 = $row.find(".username").text();
+        var username = document.getElementById('usernameModify');
+        username.value = $text2
+
+        var usernameDelete = document.getElementById('usernameDelete');
+        usernameDelete.value = $text2
+
+        var $text3 = $row.find(".password").text();
+        var password = document.getElementById('passwordModify');
+        password.value = $text3
+
+        var $text4 = $row.find(".email").text();
+        var email = document.getElementById('emailModify');
+        email.value = $text4
+
+        var $text5 = $row.find(".number").text();
+        var number = document.getElementById('numberModify');
+        number.value = $text5
+
+        var k = document.getElementById('hiddenId');
+        k.value = id
+
+        document.getElementById('usernameDelete').readOnly = true;
+}
+</script>
+{%endblock%}

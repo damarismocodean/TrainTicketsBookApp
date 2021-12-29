@@ -1,3 +1,4 @@
+from django.contrib import auth
 from django.template import loader
 from Home.models import Person
 from .forms import LoginUser, RegisterUser
@@ -41,14 +42,17 @@ def register_or_login(request):
                 personA.email = data['email']
                 personA.number = data['number']
                 personA.save()
+
                 user.set_password(personA.password)
                 user.save()
                 user = authenticate(username=personA.username, password=personA.password)
                 if user is not None:
                     if user.is_active:
                         login(request, user)
-                        return render(request, 'Homepage.html')
+                        return redirect('Home/', request)
                 return HttpResponse('<h1>Invalid Credentials</h1>')
             return HttpResponse('<h1>Invalid Data Registration</h1>')
 
     return HttpResponse(template.render({}, request))
+
+

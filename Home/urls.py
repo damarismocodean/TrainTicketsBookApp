@@ -18,5 +18,7 @@ urlpatterns = [
     path('ViewRoutes/', basefeatures_views.view_routes),
     path('ViewPlanRoutes/', basefeatures_views.view_plan_routes),
     path('Booking/',basefeatures_views.add_new_booking),
-    path('ViewBookings/',basefeatures_views.view_bookings)
+    path('ViewBookings/',basefeatures_views.view_bookings),
+    path('ViewUsers/', basefeatures_views.view_users),
+    path('logout/', basefeatures_views.logout),
 ]

@@ -1,5 +1,8 @@
 {% extends 'Base.html' %}
 
+{%block banner%}
+<li class=""><a href="logout/">Logout</a></li>
+{%endblock%}
 
 {% block content %}
 <section id="service" class="section-padding">
@@ -92,59 +95,71 @@
                 </div>
             </div>
 
-        </div>
-        {%else%}
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 col-sm-4">
-                    <h2 class="ser-title">Our Service</h2>
-                    <hr class="botm-line">
-                    <p>Manage your own tickets.</p>
-                </div>
-                <div class="col-md-4 col-sm-4">
-                    <div class="service-info">
-                        <div class="icon">
-                            <i class="fa fa-ticket" aria-hidden="true"></i>
-                        </div>
-                        <div class="icon-info">
-                            <a href="ViewBookings" class="btn btn-appoint">Your reservations</a>
-                            <p>Manage your own reservations.</p>
-                        </div>
+            <div class="col-md-4 col-sm-4">
+                <div class="service-info">
+                    <div class="icon">
+                        <i class="fa fa-users"></i>
                     </div>
-                    <div class="service-info">
-                        <div class="icon">
-                           <i class="fa fa-bell" aria-hidden="true"></i>
-                        </div>
-                        <div class="icon-info">
-                            <a href="Notification" class="btn btn-appoint">Notifications</a>
-                            <p>See what are the news.</p>
-                        </div>
+                    <div class="icon-info">
+                        <a href="ViewUsers" class="btn btn-appoint">View Users</a>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-4">
-                    <div class="service-info">
-                        <div class="icon">
-                            <i class="fa fa-thumb-tack" aria-hidden="true"></i>
-                        </div>
-                        <div class="icon-info">
-                            <a href="Booking" class="btn btn-appoint">New Booking</a>
-                            <p>Looking to make another reservation?</p>
-                        </div>
-                    </div>
-                    <div class="service-info">
-                        <div class="icon">
-                            <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
-                        </div>
-                        <div class="icon-info">
-                            <a href="Payment" class="btn btn-appoint">Payment</a>
-                            <p>Add your own payment card.How many you added?</p>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
-        {% endif %}
+    </div>
+
+    {%else%}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-sm-4">
+                <h2 class="ser-title">Our Service</h2>
+                <hr class="botm-line">
+                <p>Manage your own tickets.</p>
+            </div>
+            <div class="col-md-4 col-sm-4">
+                <div class="service-info">
+                    <div class="icon">
+                        <i class="fa fa-ticket" aria-hidden="true"></i>
+                    </div>
+                    <div class="icon-info">
+                        <a href="ViewBookings" class="btn btn-appoint">Your reservations</a>
+                        <p>Manage your own reservations.</p>
+                    </div>
+                </div>
+                <div class="service-info">
+                    <div class="icon">
+                        <i class="fa fa-bell" aria-hidden="true"></i>
+                    </div>
+                    <div class="icon-info">
+                        <a href="Notification" class="btn btn-appoint">Notifications</a>
+                        <p>See what are the news.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-4">
+                <div class="service-info">
+                    <div class="icon">
+                        <i class="fa fa-thumb-tack" aria-hidden="true"></i>
+                    </div>
+                    <div class="icon-info">
+                        <a href="Booking" class="btn btn-appoint">New Booking</a>
+                        <p>Looking to make another reservation?</p>
+                    </div>
+                </div>
+                <div class="service-info">
+                    <div class="icon">
+                        <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
+                    </div>
+                    <div class="icon-info">
+                        <a href="Payment" class="btn btn-appoint">Payment</a>
+                        <p>Add your own payment card.How many you added?</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    {% endif %}
 </section>
 
 {% endblock %}

@@ -97,3 +97,18 @@ class DeleteBooking(forms.Form):
     cardData = forms.CharField(max_length=100)
 
 
+
+
+class ModifyDataUser(forms.Form):
+    hiddenId = forms.CharField(widget=forms.HiddenInput())
+    nameModify = forms.CharField(max_length=300)
+    usernameModify = forms.CharField(max_length=100)
+    passwordModify = forms.CharField(max_length=20)
+    emailModify = forms.CharField(max_length=50)
+    numberModify = forms.CharField(max_length=10)
+
+
+class DeleteUser(forms.Form):
+    usernameDelete = forms.CharField(max_length=100)
+
+

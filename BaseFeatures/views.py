@@ -1,10 +1,13 @@
+from django.contrib import auth
+from django.contrib.auth.models import User
+from django.contrib.sessions.models import Session
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from Home.models import Person
 from .forms import AddNewStation, AddNewTrain, AddNewRoute, AddNewPlanRoute, AddNewPayment, AddNewNotification, \
     DeleteTrain, \
     ModifyTrain, DeleteStation, ModifyStation, DeleteRoute, ModifyRoute, ModifyPlanRoute, DeletePlanRoute, \
-    AddNewBooking, DeleteBooking
+    AddNewBooking, DeleteBooking, DeleteUser, ModifyDataUser
 from django.template import loader
 from .models import Station, Train, Route, PlanRoute, PaymentUser, Booking, NotificationsUser
 
@@ -306,3 +309,49 @@ def view_bookings(request):
     if request.user.is_authenticated:
         bookings=Booking.objects.all().filter(userID=request.user.id - 1)
     return HttpResponse(template.render({'bookings' : bookings}, request))
+
+
+
+def view_users(request):
+    template = loader.get_template('ViewUsers.html')
+    if request.method == 'POST':
+        if 'modify' in request.POST:
+            delete_form = DeleteUser()
+            modify_form = ModifyDataUser(request.POST)
+            if modify_form.is_valid():
+                data = modify_form.cleaned_data
+                id = data['hiddenId']
+                p = Person.objects.get(pk=id)
+                u = User.objects.get(username=p.username)
+                u.username = data['usernameModify']
+                u.set_password(data['passwordModify'])
+                u.save()
+                p.name = data['nameModify']
+                p.username = data['usernameModify']
+                p.password = data['passwordModify']
+                p.email = data['emailModify']
+                p.number = data['numberModify']
+                p.save()
+            else:
+                return HttpResponse('<h1>Invalid Data</h1>')
+        elif 'delete' in request.POST:
+            modify_form = ModifyDataUser()
+            delete_form = DeleteUser(request.POST)
+            if delete_form.is_valid():
+                data = delete_form.cleaned_data
+                p = Person.objects.get(username=data['usernameDelete'])
+                u = User.objects.get(username=data['usernameDelete'])
+                [s.delete() for s in Session.objects.all() if s.get_decoded().get('_auth_user_id') == u.id]
+                u.is_active = False
+                u.save()
+                u.delete()
+                p.delete()
+            else:
+                return HttpResponse('<h1>Invalid Data</h1>')
+    users = Person.objects.all()
+    return HttpResponse(template.render({'users': users}, request))
+
+
+def logout(request):
+    auth.logout(request)
+    return redirect("http://127.0.0.1:8000/")
