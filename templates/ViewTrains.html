@@ -83,7 +83,7 @@ table {
                                 <br>
                                 <div class="group"><label class="label">Train Name</label> <input id="trainNameModify"
                                         name="trainNameModify" type="text" class="input"
-                                        placeholder="Enter new train name" required=""></div>
+                                        placeholder="Enter new train name" required="" readonly></div>
                                 <br>
                                 <div class="group"><input type="submit" name="modify" class="button"
                                                           value="MODIFY"></div>
@@ -95,7 +95,7 @@ table {
                                 <br>
                                 <div class="group"><label class="label">Train Name</label> <input id="trainNameDelete"
                                         name="trainNameDelete" type="text" class="input"
-                                        placeholder="Enter train name" required=""></div>
+                                        placeholder="Enter train name" required="" readonly></div>
                                 <br>
                                 <div class="group"><input type="submit" name="delete" class="button"
                                                           value="DELETE"></div>
@@ -116,6 +116,7 @@ table {
 <script>
 
     function myFunction(element, id) {
+        document.getElementById('trainNameModify').readOnly = false;
         var $row = $(element).closest("tr");    // Find the row
         var $text = $row.find(".name").text(); // Find the text
         var i = document.getElementById('trainNameModify');

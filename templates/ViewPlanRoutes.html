@@ -89,7 +89,7 @@ table {
                             <div class="login">
                                 <input class="input" type="hidden" id="hiddenIdModify" name="hiddenIdModify"  value="2" />
                                 <br>
-                                <div class="group"> <label class="label">Route</label><select id="routeIdModify" name="routeIdModify" type="text" class="input" placeholder="Enter route name" required="">
+                                <div class="group"> <label class="label">Route</label><select id="routeIdModify" name="routeIdModify" type="text" class="input" placeholder="Enter route name" required="" disabled>
                                                                                            {%for i in routes%}
                                                                                            <option  value="{{i.id}}">{{i.route_name}}</option>
                                                                                            {%endfor%}
@@ -111,19 +111,15 @@ table {
                             <div class="sign-up-form">
                                 <input class="input" type="hidden" id="hiddenIdDelete" name="hiddenIdDelete"  value="2" />
                                 <br>
-                                <div class="group"> <label class="label">Route</label><select id="routeIdDelete" name="routeIdDelete" type="text" class="input" placeholder="Enter route name" required="">
-                                                                                           {%for i in routes%}
-                                                                                           <option  value="{{i.id}}">{{i.route_name}}</option>
-                                                                                           {%endfor%}
-                                                                                           </select> </div>
+                                <div class="group"> <label class="label">Route</label> <input id="routeIdDelete" name="routeIdDelete" type="text" class="input" placeholder="Route name" required="" readonly> </div>
                                 <br>
-                                <div class="group"> <label class="label">Train leaves at hour</label> <input id="startTimeDelete" name="startTimeDelete" type="time" class="input" placeholder="Enter leave hour" required=""> </div>
+                                <div class="group"> <label class="label">Train leaves at hour</label> <input id="startTimeDelete" name="startTimeDelete" type="time" class="input" placeholder="Leave hour" required="" readonly> </div>
                                 <br>
-                                <div class="group"> <label class="label">Train arrives at hour</label> <input id="arrivalTimeDelete" name="arrivalTimeDelete" type="time" class="input" placeholder="Enter arrival hour" required=""> </div>
+                                <div class="group"> <label class="label">Train arrives at hour</label> <input id="arrivalTimeDelete" name="arrivalTimeDelete" type="time" class="input" placeholder="Arrival hour" required="" readonly> </div>
                                 <br>
-                                <div class="group"> <label class="label">Date</label> <input id="dateDelete" name="dateDelete" type="date" class="input" placeholder="Enter date" required=""> </div>
+                                <div class="group"> <label class="label">Date</label> <input id="dateDelete" name="dateDelete" type="date" class="input" placeholder="Enter date" required="" readonly> </div>
                                 <br>
-                                <div class="group"> <label class="label">Price</label> <input id="priceDelete" name="priceDelete" type="number" step="0.01" class="input" placeholder="Enter price" required=""> </div>
+                                <div class="group"> <label class="label">Price</label> <input id="priceDelete" name="priceDelete" type="number" step="0.01" class="input" placeholder="Price" required="" readonly> </div>
                                 <br>
                                 <div class="group"> <input type="submit" name="delete" class="button" value="DELETE"> </div>
                             </div>
@@ -146,17 +142,12 @@ table {
         var $row = $(element).closest("tr");
         var $text1 = $row.find(".name_route").text();
 
-        document.getElementById('routeIdDelete').readOnly = false;
-        document.getElementById('startTimeDelete').readOnly = false;
-        document.getElementById('arrivalTimeDelete').readOnly = false;
-        document.getElementById('dateDelete').readOnly = false;
-        document.getElementById('priceDelete').readOnly = false;
-
+        document.getElementById('routeIdModify').disabled = false;
         var routeIdModify = document.getElementById('routeIdModify');
         routeIdModify.value = routeID;
 
         var routeIdDelete = document.getElementById('routeIdDelete');
-        routeIdDelete.value = routeID;
+        routeIdDelete.value = $text1;
 
         var idModify = document.getElementById('hiddenIdModify');
         idModify.value = id;
@@ -191,12 +182,6 @@ table {
 
         var priceDelete = document.getElementById('priceDelete');
         priceDelete.value = $text5
-
-        document.getElementById('routeIdDelete').readOnly = true;
-        document.getElementById('startTimeDelete').readOnly = true;
-        document.getElementById('arrivalTimeDelete').readOnly = true;
-        document.getElementById('dateDelete').readOnly = true;
-        document.getElementById('priceDelete').readOnly = true;
 
 }
 </script>

@@ -87,19 +87,19 @@ table {
                             <div class="login">
                                 <input class="input" type="hidden" id="hiddenId" name="hiddenId"  value="2" />
                                 <br>
-                                <div class="group"> <label class="label">Train Name</label><select id="trainNameModify" name="trainNameModify" type="text" class="input" placeholder="Enter train name" required="">
+                                <div class="group"> <label class="label">Train Name</label><select id="trainNameModify" name="trainNameModify" type="text" class="input" placeholder="Enter train name" required="" disabled>
                                                                                            {%for i in trains%}
                                                                                            <option value="{{i.id}}">{{i.trainName}}</option>
                                                                                            {%endfor%}
                                                                                            </select> </div>
                                 <br>
-                                <div class="group"> <label class="label">Start Station Name</label> <select id="startStationNameModify" name="startStationNameModify" type="text" class="input" placeholder="Enter start station name" required="">
+                                <div class="group"> <label class="label">Start Station Name</label> <select id="startStationNameModify" name="startStationNameModify" type="text" class="input" placeholder="Enter start station name" required="" disabled>
                                                                                                     {%for i in stations%}
                                                                                                     <option value="{{i.id}}">{{i.stationName}}</option>
                                                                                                     {%endfor%}
                                                                                                     </select> </div>
                                 <br>
-                                <div class="group"> <label class="label">Destination Station Name</label> <select id="destinationStationNameModify" name="destinationStationNameModify" type="text" class="input" placeholder="Enter destination station name" required="">
+                                <div class="group"> <label class="label">Destination Station Name</label> <select id="destinationStationNameModify" name="destinationStationNameModify" type="text" class="input" placeholder="Enter destination station name" required="" disabled>
                                                                                                     {%for i in stations%}
                                                                                                     <option value="{{i.id}}">{{i.stationName}}</option>
                                                                                                     {%endfor%}
@@ -112,11 +112,9 @@ table {
                             {% csrf_token %}
                             <div class="sign-up-form">
                                 <br>
-                                <div class="group"> <label class="label">Route Name</label> <select id="routeNameDelete" name="routeNameDelete" type="text" class="input" placeholder="Enter destination station name" required="">
-                                                                                                    {%for i in routes%}
-                                                                                                    <option value="{{i.id}}">{{i.route_name}}</option>
-                                                                                                    {%endfor%}
-                                                                                                    </select> </div>
+                                <div class="group"><label class="label">Route Name</label> <input id="routeNameDelete"
+                                        name="routeNameDelete" type="text" class="input"
+                                        placeholder="Route name" required="" readonly></div>
                                 <br>
                                 <div class="group"><input type="submit" name="delete" class="button"
                                                           value="Delete"></div>
@@ -137,6 +135,11 @@ table {
 <script>
 
     function myFunction(element, id, trainId, s1Id, s2Id) {
+
+        document.getElementById('trainNameModify').disabled = false;
+        document.getElementById('startStationNameModify').disabled = false;
+        document.getElementById('destinationStationNameModify').disabled = false;
+
         var $row = $(element).closest("tr");    // Find the row
         var $text1 = $row.find(".nameTrain").text(); // Find the text
         var i1 = document.getElementById('trainNameModify');
@@ -152,7 +155,7 @@ table {
 
         var $text = $row.find(".routeName").text(); // Find the text
         var j = document.getElementById('routeNameDelete');
-        j.value = id;
+        j.value = $text;
 
         var k = document.getElementById('hiddenId');
         k.value = id;

@@ -91,27 +91,27 @@ table {
                                  <input class="input" type="hidden" id="hiddenId" name="hiddenId"  value="2" />
                                 <br>
                                 <div class="group"> <label class="label">Your Name</label>
-                                    <input id="userName" name="userName" type="text" class="input" placeholder="Your name" required=""></div>
+                                    <input id="userName" name="userName" type="text" class="input" placeholder="Your name" required="" readonly></div>
                                 <br>
                                 <div class="group"> <label class="label">Route Name</label>
-                                    <input id="routeName" name="routeName" type="text" class="input" placeholder="Route name" required=""> </div>
+                                    <input id="routeName" name="routeName" type="text" class="input" placeholder="Route name" required="" readonly> </div>
                                 <br>
                                 <div class="group"> <label class="label">Start Time</label>
-                                    <input id="startTime" name="startTime" type="text" class="input" placeholder="Start time" required=""> </div>
+                                    <input id="startTime" name="startTime" type="text" class="input" placeholder="Start time" required="" readonly> </div>
                                 <br>
                                 <div class="group"> <label class="label"> Arrival Time</label>
-                                    <input id="arrivalTime" name="arrivalTime" type="text" class="input" placeholder="Arrival time" required=""> </div>
+                                    <input id="arrivalTime" name="arrivalTime" type="text" class="input" placeholder="Arrival time" required="" readonly> </div>
                                 <br>
                                 <div class="group"> <label class="label">Date</label>
-                                    <input id="date" name="date" type="text" class="input" placeholder="Date" required=""> </div>
+                                    <input id="date" name="date" type="text" class="input" placeholder="Date" required="" readonly> </div>
                                 <br>
                                 <div class="group"> <label class="label">Price</label>
-                                    <input id="price" name="price" type="text" class="input" placeholder="Price" required=""> </div>
+                                    <input id="price" name="price" type="text" class="input" placeholder="Price" required="" readonly> </div>
                                 <br>
                                 <div class="group"> <label class="label">Payment Card</label>
-                                    <input id="cardData" name="cardData" type="text" class="input" placeholder="Card data" required=""> </div>
+                                    <input id="cardData" name="cardData" type="text" class="input" placeholder="Card data" required="" readonly> </div>
                                 <br>
-                                <div class="group"> <input type="submit" name ="reserve" class="button" value="CANCEL"> </div>
+                                <div class="group"> <input type="submit" name ="reserve" class="button" value="CANCEL" > </div>
                             </div>
                         </form>
 
@@ -129,38 +129,39 @@ table {
 <script>
 
     function myFunction(element, id) {
-        var $row = $(element).closest("tr");    // Find the row
+        var $row = $(element).closest("tr");
 
-        var $text = $row.find(".userName").text(); // Find the text
+        var $text = $row.find(".userName").text();
         var i = document.getElementById('userName');
         i.value = $text
 
-        var $text1 = $row.find(".routeName").text(); // Find the text
+        var $text1 = $row.find(".routeName").text();
         var i1 = document.getElementById('routeName');
         i1.value = $text1
 
-        var $text2 = $row.find(".startTime").text(); // Find the text
+        var $text2 = $row.find(".startTime").text();
         var i2 = document.getElementById('startTime');
         i2.value = $text2
 
-        var $text3 = $row.find(".arrivalTime").text(); // Find the text
+        var $text3 = $row.find(".arrivalTime").text();
         var i3 = document.getElementById('arrivalTime');
         i3.value = $text3
 
-        var $text4 = $row.find(".date").text(); // Find the text
+        var $text4 = $row.find(".date").text();
         var i4 = document.getElementById('date');
         i4.value = $text4
 
-        var $text5 = $row.find(".price").text(); // Find the text
+        var $text5 = $row.find(".price").text();
         var i5 = document.getElementById('price');
         i5.value = $text5
 
-        var $text6 = $row.find(".cardData").text(); // Find the text
+        var $text6 = $row.find(".cardData").text();
         var i6 = document.getElementById('cardData');
         i6.value = $text6
 
         var k = document.getElementById('hiddenId');
         k.value = id
+
 }
 </script>
 {%endblock%}

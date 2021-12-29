@@ -87,24 +87,24 @@ table {
                                  <input class="input" type="hidden" id="hiddenId" name="hiddenId"  value="2" />
                                 <br>
                                 <div class="group"> <label class="label">Your Name</label>
-                                    <input name="userName" type="text" class="input" placeholder="Your name" required="" value="{{personA.name}}"></div>
+                                    <input name="userName" type="text" class="input" placeholder="Your name" required="" value="{{personA.name}}" readonly></div>
                                 <br>
                                 <div class="group"> <label class="label">Route Name</label>
-                                    <input id="routeName" name="routeName" type="text" class="input" placeholder="Route name" required=""> </div>
+                                    <input id="routeName" name="routeName" type="text" class="input" placeholder="Route name" required="" readonly> </div>
                                 <br>
                                 <div class="group"> <label class="label">Start Time</label>
-                                    <input id="startTime" name="startTime" type="text" class="input" placeholder="Start time" required=""> </div>
+                                    <input id="startTime" name="startTime" type="text" class="input" placeholder="Start time" required="" readonly> </div>
                                 <br>
                                 <div class="group"> <label class="label"> Arrival Time</label>
-                                    <input id="arrivalTime" name="arrivalTime" type="text" class="input" placeholder="Arrival time" required=""> </div>
+                                    <input id="arrivalTime" name="arrivalTime" type="text" class="input" placeholder="Arrival time" required="" readonly> </div>
                                 <br>
                                 <div class="group"> <label class="label">Date</label>
-                                    <input id="date" name="date" type="text" class="input" placeholder="Date" required=""> </div>
+                                    <input id="date" name="date" type="text" class="input" placeholder="Date" required="" readonly> </div>
                                 <br>
                                 <div class="group"> <label class="label">Price</label>
-                                    <input id="price" name="price" type="text" class="input" placeholder="Price" required=""> </div>
+                                    <input id="price" name="price" type="text" class="input" placeholder="Price" required="" readonly> </div>
                                 <br>
-                                <div class="group"> <label class="label">Payment Card</label><select name="cardName" type="text" class="input" placeholder="Card name" required="">
+                                <div class="group"> <label class="label">Payment Card</label><select id="cardName" name="cardName" type="text" class="input" placeholder="Card name" required="" disabled>
                                                                                            {%for i in payments%}
                                                                                            <option value="{{i.id}}">{{i.cardName}}</option>
                                                                                            {%endfor%}
@@ -128,6 +128,7 @@ table {
 <script>
 
     function myFunction(element, id) {
+        document.getElementById('cardName').disabled = false;
         var $row = $(element).closest("tr");    // Find the row
         var $text1 = $row.find(".routeName").text(); // Find the text
         var i1 = document.getElementById('routeName');
