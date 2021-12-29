@@ -76,3 +76,24 @@ class DeletePlanRoute(forms.Form):
     dateDelete = forms.DateField()
     priceDelete = forms.DecimalField(max_digits=5, decimal_places=2)
 
+class AddNewBooking(forms.Form):
+    hiddenId = forms.CharField(widget=forms.HiddenInput())
+    userName=forms.CharField(max_length=100)
+    routeName=forms.CharField(max_length=100)
+    startTime = forms.CharField(max_length=100)
+    arrivalTime = forms.CharField(max_length=100)
+    date = forms.CharField(max_length=100)
+    price = forms.DecimalField(max_digits=5, decimal_places=2)
+    cardName = forms.CharField(max_length=100)
+
+class DeleteBooking(forms.Form):
+    hiddenId = forms.CharField(widget=forms.HiddenInput())
+    userName=forms.CharField(max_length=100)
+    routeName=forms.CharField(max_length=100)
+    startTime = forms.CharField(max_length=100)
+    arrivalTime = forms.CharField(max_length=100)
+    date = forms.CharField(max_length=100)
+    price = forms.DecimalField(max_digits=5, decimal_places=2)
+    cardData = forms.CharField(max_length=100)
+
+

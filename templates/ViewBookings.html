@@ -1,0 +1,166 @@
+{% extends 'Base.html' %}
+
+{%block style%}
+
+{% load static %}
+  <link rel="stylesheet" type="text/css" href="{%static 'css/table.css'%}">
+
+<style>
+
+table {
+	width: 900px;
+}
+
+.box {
+    max-width: 950px;
+    min-height: 280px;
+}
+
+.login-box {
+    max-width: 590px;
+    min-height: 1000px;
+}
+.button-select {
+  line-height: 1;
+  display: inline-block;
+  font-size: 1.2rem;
+  text-decoration: none;
+  border-radius: 5px;
+  color: #fff;
+  padding: 8px;
+  background-color: darken($subtle,5%);
+}
+</style>
+
+
+{%endblock%}
+
+{%block content%}
+<section id="service" class="section-padding">
+
+
+    <div class="box">
+        <center>
+            <table >
+                <thead>
+                <tr>
+                    <th>Buyer Name</th>
+                    <th>Route</th>
+                    <th>Start Time</th>
+                    <th>Arrival Time</th>
+                    <th>Date</th>
+                    <th>Price</th>
+                    <th>Card</th>
+                    <th>Select</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for i in bookings %}
+                <tr>
+                    <td class="userName">{{i.userID.name}}</td>
+                    <td class="routeName">{{i.routeID.routeID.route_name}}</td>
+                    <td class="startTime">{{i.routeID.startTime}}</td>
+                    <td class="arrivalTime">{{i.routeID.arrivalTime}}</td>
+                    <td class="date">{{i.routeID.date}}</td>
+                    <td class="price">{{i.routeID.price}}</td>
+                    <td class="cardData">{{i.paymentID.cardName}}</td>
+                    <td> <button class="btn btn-select" onclick="myFunction(this, {{i.id}})">Select</button> </td>
+                </tr>
+                {% endfor %}
+
+
+
+                </tbody>
+            </table>
+        </center>
+    </div>
+
+    <br>
+    <br>
+
+<center>
+
+        <div class="card">
+            <div class="login-box">
+                <div class="login-snip"> <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">TICKET</label> <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab"></label>
+                    <div class="login-space">
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <div class="login">
+                                 <input class="input" type="hidden" id="hiddenId" name="hiddenId"  value="2" />
+                                <br>
+                                <div class="group"> <label class="label">Your Name</label>
+                                    <input id="userName" name="userName" type="text" class="input" placeholder="Your name" required=""></div>
+                                <br>
+                                <div class="group"> <label class="label">Route Name</label>
+                                    <input id="routeName" name="routeName" type="text" class="input" placeholder="Route name" required=""> </div>
+                                <br>
+                                <div class="group"> <label class="label">Start Time</label>
+                                    <input id="startTime" name="startTime" type="text" class="input" placeholder="Start time" required=""> </div>
+                                <br>
+                                <div class="group"> <label class="label"> Arrival Time</label>
+                                    <input id="arrivalTime" name="arrivalTime" type="text" class="input" placeholder="Arrival time" required=""> </div>
+                                <br>
+                                <div class="group"> <label class="label">Date</label>
+                                    <input id="date" name="date" type="text" class="input" placeholder="Date" required=""> </div>
+                                <br>
+                                <div class="group"> <label class="label">Price</label>
+                                    <input id="price" name="price" type="text" class="input" placeholder="Price" required=""> </div>
+                                <br>
+                                <div class="group"> <label class="label">Payment Card</label>
+                                    <input id="cardData" name="cardData" type="text" class="input" placeholder="Card data" required=""> </div>
+                                <br>
+                                <div class="group"> <input type="submit" name ="reserve" class="button" value="CANCEL"> </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </center>
+
+
+
+</section>
+
+<script>
+
+    function myFunction(element, id) {
+        var $row = $(element).closest("tr");    // Find the row
+
+        var $text = $row.find(".userName").text(); // Find the text
+        var i = document.getElementById('userName');
+        i.value = $text
+
+        var $text1 = $row.find(".routeName").text(); // Find the text
+        var i1 = document.getElementById('routeName');
+        i1.value = $text1
+
+        var $text2 = $row.find(".startTime").text(); // Find the text
+        var i2 = document.getElementById('startTime');
+        i2.value = $text2
+
+        var $text3 = $row.find(".arrivalTime").text(); // Find the text
+        var i3 = document.getElementById('arrivalTime');
+        i3.value = $text3
+
+        var $text4 = $row.find(".date").text(); // Find the text
+        var i4 = document.getElementById('date');
+        i4.value = $text4
+
+        var $text5 = $row.find(".price").text(); // Find the text
+        var i5 = document.getElementById('price');
+        i5.value = $text5
+
+        var $text6 = $row.find(".cardData").text(); // Find the text
+        var i6 = document.getElementById('cardData');
+        i6.value = $text6
+
+        var k = document.getElementById('hiddenId');
+        k.value = id
+}
+</script>
+{%endblock%}

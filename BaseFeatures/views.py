@@ -3,7 +3,8 @@ from django.shortcuts import render, redirect
 from Home.models import Person
 from .forms import AddNewStation, AddNewTrain, AddNewRoute, AddNewPlanRoute, AddNewPayment, AddNewNotification, \
     DeleteTrain, \
-    ModifyTrain, DeleteStation, ModifyStation, DeleteRoute, ModifyRoute, ModifyPlanRoute, DeletePlanRoute
+    ModifyTrain, DeleteStation, ModifyStation, DeleteRoute, ModifyRoute, ModifyPlanRoute, DeletePlanRoute, \
+    AddNewBooking, DeleteBooking
 from django.template import loader
 from .models import Station, Train, Route, PlanRoute, PaymentUser, Booking, NotificationsUser
 
@@ -75,12 +76,6 @@ def add_new_plan_route(request):
             plan_route.date = data['date']
             plan_route.price = data['price']
             plan_route.save()
-
-            notification = NotificationsUser()
-            notification.userID = Person.objects.get(id=1)
-            notification.message = "Added a new route"
-            notification.save()
-
         else:
             return HttpResponse('<h1>Invalid Data</h1>')
     routes = Route.objects.all()
@@ -223,6 +218,23 @@ def view_plan_routes(request):
                 plan_route.arrivalTime = data['arrivalTimeModify']
                 plan_route.date = data['dateModify']
                 plan_route.price = data['priceModify']
+
+                bookings = Booking.objects.all().filter(routeID=plan_route)
+                print(plan_route.id)
+                for book in bookings:
+                    notification = NotificationsUser()
+                    notification.userID = book.userID
+                    notification.message = \
+                        "A change has occur to rezervation: " \
+                        + str(plan_route.routeID.route_name) \
+                        + " ,start time: " + str(plan_route.startTime) \
+                        + " , arrival time: " + str(plan_route.arrivalTime) \
+                        + " ,date: " + str(plan_route.date) \
+                        + " ,price: " + str(plan_route.price)
+                    print(notification.message)
+                    print(notification.userID.id)
+                    notification.save()
+
                 plan_route.save()
             else:
                 return HttpResponse('<h1>Invalid Data</h1>')
@@ -230,13 +242,67 @@ def view_plan_routes(request):
             modify_form = ModifyPlanRoute()
             delete_form = DeletePlanRoute(request.POST)
             if delete_form.is_valid():
-                print("delete form is valid")
                 data = delete_form.cleaned_data
                 id = data['hiddenIdDelete']
                 plan_route = PlanRoute.objects.get(pk=id)
+                second_route = plan_route
+
+                bookings = Booking.objects.all().filter(routeID=second_route)
+                print(plan_route.routeID.id)
+                for book in bookings:
+                    notification = NotificationsUser()
+                    notification.userID = book.userID
+                    notification.message = \
+                        "A change has occur to rezervation:" \
+                        + str(second_route.routeID.route_name) \
+                        + " has been deleted"
+                    print(notification.message)
+                    print(notification.userID.id)
+                    notification.save()
+
                 plan_route.delete()
             else:
                 return HttpResponse('<h1>Invalid Data</h1>')
     plan_routes = PlanRoute.objects.all()
     routes = Route.objects.all()
     return HttpResponse(template.render({'plan_routes': plan_routes, 'routes': routes}, request))
+
+def add_new_booking(request):
+    template = loader.get_template('Booking.html')
+    if request.method == 'POST':
+            form = AddNewBooking(request.POST)
+            if form.is_valid():
+                data = form.cleaned_data
+                booking = Booking()
+                if request.user.is_authenticated:
+                     booking.userID = Person.objects.get(pk=request.user.id - 1)
+                     id = data['hiddenId']
+                     plan_route = PlanRoute.objects.get(pk=id)
+                     booking.routeID = plan_route
+                     print(booking.routeID.id)
+                     booking.paymentID = PaymentUser.objects.get(pk=data['cardName'])
+                     booking.save()
+                else:
+                    print("the user is not authenticated")
+            else:
+                return HttpResponse('<h1>Invalid Data</h1>')
+    if request.user.is_authenticated:
+        personA=Person.objects.get(pk=request.user.id - 1)
+        payments=PaymentUser.objects.all().filter(userID=personA)
+        plannedroutes=PlanRoute.objects.all()
+    return HttpResponse(template.render({'personA': personA, 'payments': payments, 'routes':plannedroutes}, request))
+
+def view_bookings(request):
+    template = loader.get_template('ViewBookings.html')
+    if request.method == 'POST':
+        form = DeleteBooking(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            id = data['hiddenId']
+            book=Booking.objects.get(pk=id)
+            book.delete()
+        else:
+            return HttpResponse('<h1>Invalid Data</h1>')
+    if request.user.is_authenticated:
+        bookings=Booking.objects.all().filter(userID=request.user.id - 1)
+    return HttpResponse(template.render({'bookings' : bookings}, request))
