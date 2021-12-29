@@ -1,0 +1,203 @@
+{% extends 'Base.html' %}
+
+{%block style%}
+
+{% load static %}
+  <link rel="stylesheet" type="text/css" href="{%static 'css/table.css'%}">
+
+<style>
+
+table {
+	width: 600px;
+}
+
+.box {
+    max-width: 620px;
+    min-height: 180px;
+}
+
+.login-box {
+    max-width: 525px;
+    min-height: 780px;
+}
+.button-select {
+  line-height: 1;
+  display: inline-block;
+  font-size: 1.2rem;
+  text-decoration: none;
+  border-radius: 5px;
+  color: #fff;
+  padding: 8px;
+  background-color: darken($subtle,5%);
+}
+</style>
+
+
+{%endblock%}
+
+{%block content%}
+<section id="service" class="section-padding">
+
+
+    <div class="box">
+        <center>
+            <table >
+                <thead>
+                <tr>
+                    <th>Route</th>
+                    <th>Start Time</th>
+                    <th>Arrival Time</th>
+                    <th>Date</th>
+                    <th>Price</th>
+                    <th>Select</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for i in plan_routes %}
+                <tr>
+                    <td class="name_route">{{i.routeID.route_name}}</td>
+                    <td class="startTime">{{i.startTime}}</td>
+                    <td class="arrivalTime">{{i.arrivalTime}}</td>
+                    <td class="date">{{i.date}}</td>
+                    <td class="price">{{i.price}}</td>
+                    <td> <button class="btn btn-select" onclick="myFunction(this, {{i.id}}, {{i.routeID.id}})">Select</button> </td>
+                </tr>
+                {% endfor %}
+
+
+
+                </tbody>
+            </table>
+        </center>
+    </div>
+
+    <br>
+    <br>
+
+    <center>
+
+        <div class="card">
+            <div class="login-box">
+                <div class="login-snip"><input id="tab-1" type="radio" name="tab" class="sign-in"
+                                               checked><label for="tab-1" class="tab">MODIFY</label>
+                    <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2"
+                                                                                     class="tab">DELETE</label>
+                    <div class="login-space">
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <div class="login">
+                                <input class="input" type="hidden" id="hiddenIdModify" name="hiddenIdModify"  value="2" />
+                                <br>
+                                <div class="group"> <label class="label">Route</label><select id="routeIdModify" name="routeIdModify" type="text" class="input" placeholder="Enter route name" required="">
+                                                                                           {%for i in routes%}
+                                                                                           <option  value="{{i.id}}">{{i.route_name}}</option>
+                                                                                           {%endfor%}
+                                                                                           </select> </div>
+                                <br>
+                                <div class="group"> <label class="label">Train leaves at hour</label> <input id="startTimeModify" name="startTimeModify" type="time" class="input" placeholder="Enter leave hour" required=""> </div>
+                                <br>
+                                <div class="group"> <label class="label">Train arrives at hour</label> <input id="arrivalTimeModify" name="arrivalTimeModify" type="time" class="input" placeholder="Enter arrival hour" required=""> </div>
+                                <br>
+                                <div class="group"> <label class="label">Date</label> <input id="dateModify" name="dateModify" type="date" class="input" placeholder="Enter date" required=""> </div>
+                                <br>
+                                <div class="group"> <label class="label">Price</label> <input id="priceModify" name="priceModify" type="number" step="0.01" class="input" placeholder="Enter price" required=""> </div>
+                                <br>
+                                <div class="group"> <input type="submit" name ="modify" class="button" value="MODIFY"> </div>
+                            </div>
+                        </form>
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <div class="sign-up-form">
+                                <input class="input" type="hidden" id="hiddenIdDelete" name="hiddenIdDelete"  value="2" />
+                                <br>
+                                <div class="group"> <label class="label">Route</label><select id="routeIdDelete" name="routeIdDelete" type="text" class="input" placeholder="Enter route name" required="">
+                                                                                           {%for i in routes%}
+                                                                                           <option  value="{{i.id}}">{{i.route_name}}</option>
+                                                                                           {%endfor%}
+                                                                                           </select> </div>
+                                <br>
+                                <div class="group"> <label class="label">Train leaves at hour</label> <input id="startTimeDelete" name="startTimeDelete" type="time" class="input" placeholder="Enter leave hour" required=""> </div>
+                                <br>
+                                <div class="group"> <label class="label">Train arrives at hour</label> <input id="arrivalTimeDelete" name="arrivalTimeDelete" type="time" class="input" placeholder="Enter arrival hour" required=""> </div>
+                                <br>
+                                <div class="group"> <label class="label">Date</label> <input id="dateDelete" name="dateDelete" type="date" class="input" placeholder="Enter date" required=""> </div>
+                                <br>
+                                <div class="group"> <label class="label">Price</label> <input id="priceDelete" name="priceDelete" type="number" step="0.01" class="input" placeholder="Enter price" required=""> </div>
+                                <br>
+                                <div class="group"> <input type="submit" name="delete" class="button" value="DELETE"> </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </center>
+
+
+
+</section>
+
+<script>
+
+    function myFunction(element, id, routeID) {
+        var $row = $(element).closest("tr");
+        var $text1 = $row.find(".name_route").text();
+
+        document.getElementById('routeIdDelete').readOnly = false;
+        document.getElementById('startTimeDelete').readOnly = false;
+        document.getElementById('arrivalTimeDelete').readOnly = false;
+        document.getElementById('dateDelete').readOnly = false;
+        document.getElementById('priceDelete').readOnly = false;
+
+        var routeIdModify = document.getElementById('routeIdModify');
+        routeIdModify.value = routeID;
+
+        var routeIdDelete = document.getElementById('routeIdDelete');
+        routeIdDelete.value = routeID;
+
+        var idModify = document.getElementById('hiddenIdModify');
+        idModify.value = id;
+
+        var idDelete = document.getElementById('hiddenIdDelete');
+        idDelete.value = id;
+
+        var $text2 = $row.find(".startTime").text();
+        var startTimeModify = document.getElementById('startTimeModify');
+        startTimeModify.value = $text2
+
+        var startTimeDelete = document.getElementById('startTimeDelete');
+        startTimeDelete.value = $text2
+
+        var $text3 = $row.find(".arrivalTime").text();
+        var arrivalTimeModify = document.getElementById('arrivalTimeModify');
+        arrivalTimeModify.value = $text3
+
+        var arrivalTimeDelete = document.getElementById('arrivalTimeDelete');
+        arrivalTimeDelete.value = $text3
+
+        var $text4 = $row.find(".date").text();
+        var dateModify = document.getElementById('dateModify');
+        dateModify.value = $text4
+
+        var dateDelete = document.getElementById('dateDelete');
+        dateDelete.value = $text4
+
+        var $text5 = $row.find(".price").text();
+        var priceModify = document.getElementById('priceModify');
+        priceModify.value = $text5
+
+        var priceDelete = document.getElementById('priceDelete');
+        priceDelete.value = $text5
+
+        document.getElementById('routeIdDelete').readOnly = true;
+        document.getElementById('startTimeDelete').readOnly = true;
+        document.getElementById('arrivalTimeDelete').readOnly = true;
+        document.getElementById('dateDelete').readOnly = true;
+        document.getElementById('priceDelete').readOnly = true;
+
+}
+</script>
+{%endblock%}

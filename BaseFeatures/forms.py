@@ -57,3 +57,22 @@ class ModifyRoute(forms.Form):
 
 class DeleteRoute(forms.Form):
     routeNameDelete=forms.CharField(max_length=100)
+
+
+class ModifyPlanRoute(forms.Form):
+    hiddenIdModify = forms.CharField(widget=forms.HiddenInput())
+    routeIdModify = forms.CharField(max_length=100)
+    startTimeModify = forms.TimeField()
+    arrivalTimeModify = forms.TimeField()
+    dateModify = forms.DateField()
+    priceModify = forms.DecimalField(max_digits=5, decimal_places=2)
+
+
+class DeletePlanRoute(forms.Form):
+    hiddenIdDelete = forms.CharField(widget=forms.HiddenInput())
+    routeIdDelete = forms.CharField(max_length=100)
+    startTimeDelete = forms.TimeField()
+    arrivalTimeDelete = forms.TimeField()
+    dateDelete = forms.DateField()
+    priceDelete = forms.DecimalField(max_digits=5, decimal_places=2)
+

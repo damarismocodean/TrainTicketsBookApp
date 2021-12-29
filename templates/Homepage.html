@@ -2,149 +2,158 @@
 
 
 {% block content %}
- <section id="service" class="section-padding">
-{% if request.user.is_superuser %}
-   <div class="container">
-      <div class="row">
-        <div class="col-md-4 col-sm-4">
-          <h2 class="ser-title">Our Service</h2>
-          <hr class="botm-line">
-          <p>Manage System</p>
-        </div>
-
-        <div class="col-md-4 col-sm-4">
-        <div class="service-info">
-            <div class="icon">
-              <i class="fa fa-plus-circle"></i>
-            </div>
-            <div class="icon-info">
-              <a href="AddTrain" class="btn btn-appoint">Add a new train</a>
-            </div>
-        </div>
-
-        <div class="service-info">
-            <div class="icon">
-              <i class="fa fa-plus-circle"></i>
-            </div>
-            <div class="icon-info">
-              <a href="AddStation" class="btn btn-appoint">Add a new station</a>
-            </div>
-        </div>
-           </div>
-
-        <div class="col-md-4 col-sm-4">
-          <div class="service-info">
-            <div class="icon">
-              <i class="fa fa-plus-circle"></i>
-            </div>
-            <div class="icon-info">
-              <a href="AddRoute" class="btn btn-appoint">Add a new route</a>
-            </div>
-          </div>
-
-          <div class="service-info">
-            <div class="icon">
-              <i class="fa fa-plus-circle"></i>
-            </div>
-            <div class="icon-info">
-              <a href="AddPlanRoute" class="btn btn-appoint">Plan a new route</a>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="col-md-4 col-sm-4">
-        <div class="service-info">
-            <div class="icon">
-              <i class="fa fa-table"></i>
-            </div>
-            <div class="icon-info">
-              <a href="ViewTrains" class="btn btn-appoint">View Trains</a>
-            </div>
-        </div>
-        <div class="service-info">
-            <div class="icon">
-              <i class="fa fa-table"></i>
-            </div>
-            <div class="icon-info">
-              <a href="ViewStations" class="btn btn-appoint">View Stations</a>
-            </div>
-        </div>
-        </div>
-
-      <div class="col-md-4 col-sm-4">
-        <div class="service-info">
-            <div class="icon">
-              <i class="fa fa-table"></i>
-            </div>
-            <div class="icon-info">
-              <a href="ViewRoutes" class="btn btn-appoint">View Routes</a>
-            </div>
-        </div>
-      </div>
-
-    </div>
-{%else%}
+<section id="service" class="section-padding">
+    {% if request.user.is_superuser %}
     <div class="container">
-      <div class="row">
-        <div class="col-md-4 col-sm-4">
-          <h2 class="ser-title">Our Service</h2>
-          <hr class="botm-line">
-          <p>Manage your own tickets.</p>
+        <div class="row">
+            <div class="col-md-4 col-sm-4">
+                <h2 class="ser-title">Our Service</h2>
+                <hr class="botm-line">
+                <p>Manage System</p>
+            </div>
+
+            <div class="col-md-4 col-sm-4">
+                <div class="service-info">
+                    <div class="icon">
+                        <i class="fa fa-plus-circle"></i>
+                    </div>
+                    <div class="icon-info">
+                        <a href="AddTrain" class="btn btn-appoint">Add a new train</a>
+                    </div>
+                </div>
+
+                <div class="service-info">
+                    <div class="icon">
+                        <i class="fa fa-plus-circle"></i>
+                    </div>
+                    <div class="icon-info">
+                        <a href="AddStation" class="btn btn-appoint">Add a new station</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-4">
+                <div class="service-info">
+                    <div class="icon">
+                        <i class="fa fa-plus-circle"></i>
+                    </div>
+                    <div class="icon-info">
+                        <a href="AddRoute" class="btn btn-appoint">Add a new route</a>
+                    </div>
+                </div>
+
+                <div class="service-info">
+                    <div class="icon">
+                        <i class="fa fa-plus-circle"></i>
+                    </div>
+                    <div class="icon-info">
+                        <a href="AddPlanRoute" class="btn btn-appoint">Plan a new route</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-4 col-sm-4">
+                <div class="service-info">
+                    <div class="icon">
+                        <i class="fa fa-table"></i>
+                    </div>
+                    <div class="icon-info">
+                        <a href="ViewTrains" class="btn btn-appoint">View Trains</a>
+                    </div>
+                </div>
+                <div class="service-info">
+                    <div class="icon">
+                        <i class="fa fa-table"></i>
+                    </div>
+                    <div class="icon-info">
+                        <a href="ViewStations" class="btn btn-appoint">View Stations</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-4">
+                <div class="service-info">
+                    <div class="icon">
+                        <i class="fa fa-table"></i>
+                    </div>
+                    <div class="icon-info">
+                        <a href="ViewRoutes" class="btn btn-appoint">View Routes</a>
+                    </div>
+                </div>
+
+                <div class="service-info">
+                    <div class="icon">
+                        <i class="fa fa-table"></i>
+                    </div>
+                    <div class="icon-info">
+                        <a href="ViewPlanRoutes" class="btn btn-appoint">View Planned Routes</a>
+                    </div>
+                </div>
+            </div>
+
         </div>
-        <div class="col-md-4 col-sm-4">
-          <div class="service-info">
-            <div class="icon">
-              <i class="fa fa-ticket" aria-hidden="true"></i>
+        {%else%}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <h2 class="ser-title">Our Service</h2>
+                    <hr class="botm-line">
+                    <p>Manage your own tickets.</p>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <div class="service-info">
+                        <div class="icon">
+                            <i class="fa fa-ticket" aria-hidden="true"></i>
+                        </div>
+                        <div class="icon-info">
+                            <a href="base" class="btn btn-appoint">Your reservations</a>
+                            <p>What's your next move?</p>
+                        </div>
+                    </div>
+                    <div class="service-info">
+                        <div class="icon">
+                            <i class="fa fa-times-circle"></i>
+                        </div>
+                        <div class="icon-info">
+                            <a href="base" class="btn btn-appoint">Cancel reservation</a>
+                            <p>Can't make it? Let us know.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <div class="service-info">
+                        <div class="icon">
+                            <i class="fa fa-train"></i>
+                        </div>
+                        <div class="icon-info">
+                            <a href="base" class="btn btn-appoint">Look for trains</a>
+                            <p>Looking to make another reservation?</p>
+                        </div>
+                    </div>
+                    <div class="service-info">
+                        <div class="icon">
+                            <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
+                        </div>
+                        <div class="icon-info">
+                            <a href="Payment" class="btn btn-appoint">Payment</a>
+                            <p>Add your own payment card.How many you added?</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <div class="service-info">
+                        <div class="icon">
+                            <i class="fa fa-bell" aria-hidden="true"></i>
+                        </div>
+                        <div class="icon-info">
+                            <a href="Notification" class="btn btn-appoint">Notifications</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="icon-info">
-              <a href="base" class="btn btn-appoint">Your reservations</a>
-              <p>What's your next move?</p>
-            </div>
-          </div>
-          <div class="service-info">
-            <div class="icon">
-              <i class="fa fa-times-circle"></i>
-            </div>
-            <div class="icon-info">
-               <a href="base" class="btn btn-appoint">Cancel reservation</a>
-              <p>Can't make it? Let us know.</p>
-            </div>
-          </div>
         </div>
-        <div class="col-md-4 col-sm-4">
-          <div class="service-info">
-            <div class="icon">
-              <i class="fa fa-train"></i>
-            </div>
-            <div class="icon-info">
-              <a href="base" class="btn btn-appoint">Look for trains</a>
-              <p>Looking to make another reservation?</p>
-            </div>
-          </div>
-          <div class="service-info">
-            <div class="icon">
-              <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
-            </div>
-            <div class="icon-info">
-               <a href="Payment" class="btn btn-appoint">Payment</a>
-              <p>Add your own payment card.How many you added?</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 col-sm-4">
-        <div class="service-info">
-          <div class="icon">
-            <i class="fa fa-bell" aria-hidden="true"></i>
-          </div>
-          <div class="icon-info">
-            <a href="Notification" class="btn btn-appoint">Notifications</a>
-          </div>
-        </div>
-       </div>
-      </div>
-    </div>
-{% endif %}
+        {% endif %}
 </section>
 
 {% endblock %}

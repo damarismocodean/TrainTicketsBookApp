@@ -1,16 +1,17 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from Home.models import Person
-from .forms import AddNewStation, AddNewTrain, AddNewRoute, AddNewPlanRoute, AddNewPayment, AddNewNotification,DeleteTrain, \
-    ModifyTrain, DeleteStation, ModifyStation, DeleteRoute, ModifyRoute
+from .forms import AddNewStation, AddNewTrain, AddNewRoute, AddNewPlanRoute, AddNewPayment, AddNewNotification, \
+    DeleteTrain, \
+    ModifyTrain, DeleteStation, ModifyStation, DeleteRoute, ModifyRoute, ModifyPlanRoute, DeletePlanRoute
 from django.template import loader
 from .models import Station, Train, Route, PlanRoute, PaymentUser, Booking, NotificationsUser
 
 
 class DRoute:
-    train1=Train()
-    stationS=Station()
-    stationD=Station()
+    train1 = Train()
+    stationS = Station()
+    stationD = Station()
 
 
 # Create your views here.
@@ -75,7 +76,6 @@ def add_new_plan_route(request):
             plan_route.price = data['price']
             plan_route.save()
 
-            
             notification = NotificationsUser()
             notification.userID = Person.objects.get(id=1)
             notification.message = "Added a new route"
@@ -147,6 +147,7 @@ def view_trains(request):
     trains = Train.objects.all()
     return HttpResponse(template.render({'trains': trains}, request))
 
+
 def view_stations(request):
     template = loader.get_template('ViewStations.html')
     if request.method == 'POST':
@@ -173,6 +174,7 @@ def view_stations(request):
     stations = Station.objects.all()
     return HttpResponse(template.render({'stations': stations}, request))
 
+
 def view_routes(request):
     template = loader.get_template('ViewRoutes.html')
     if request.method == 'POST':
@@ -183,9 +185,9 @@ def view_routes(request):
                 data = modify_form.cleaned_data
                 id = data['hiddenId']
                 r = Route.objects.get(pk=id)
-                r.trainID = Train.objects.get(trainName=data['trainNameModify'])
-                r.startStationID = Station.objects.get(stationName=data['startStationNameModify'])
-                r.destinationStationID = Station.objects.get(stationName=data['destinationStationNameModify'])
+                r.trainID = Train.objects.get(pk=data['trainNameModify'])
+                r.startStationID = Station.objects.get(pk=data['startStationNameModify'])
+                r.destinationStationID = Station.objects.get(pk=data['destinationStationNameModify'])
                 r.save()
             else:
                 return HttpResponse('<h1>Invalid Data</h1>')
@@ -194,12 +196,7 @@ def view_routes(request):
             delete_form = DeleteRoute(request.POST)
             if delete_form.is_valid():
                 data = delete_form.cleaned_data
-                ID=-1
-                for i in Route.objects.all():
-                    if i.route_name == data['routeNameDelete']:
-                        ID=i.id
-                        break
-                r = Route.objects.get(pk=ID)
+                r = Route.objects.get(pk=data['routeNameDelete'])
                 r.delete()
             else:
                 return HttpResponse('<h1>Invalid Data</h1>')
@@ -208,3 +205,38 @@ def view_routes(request):
     stations = Station.objects.all()
     return HttpResponse(template.render({'routes': routes, 'trains': trains, 'stations': stations}, request))
 
+
+def view_plan_routes(request):
+    template = loader.get_template('ViewPlanRoutes.html')
+    if request.method == 'POST':
+        if 'modify' in request.POST:
+            delete_form = DeletePlanRoute()
+            modify_form = ModifyPlanRoute(request.POST)
+            if modify_form.is_valid():
+                data = modify_form.cleaned_data
+                id = data['hiddenIdModify']
+                plan_route = PlanRoute.objects.get(pk=id)
+                routeId = data['routeIdModify']
+                route = Route.objects.get(pk=routeId)
+                plan_route.routeID = route
+                plan_route.startTime = data['startTimeModify']
+                plan_route.arrivalTime = data['arrivalTimeModify']
+                plan_route.date = data['dateModify']
+                plan_route.price = data['priceModify']
+                plan_route.save()
+            else:
+                return HttpResponse('<h1>Invalid Data</h1>')
+        elif 'delete' in request.POST:
+            modify_form = ModifyPlanRoute()
+            delete_form = DeletePlanRoute(request.POST)
+            if delete_form.is_valid():
+                print("delete form is valid")
+                data = delete_form.cleaned_data
+                id = data['hiddenIdDelete']
+                plan_route = PlanRoute.objects.get(pk=id)
+                plan_route.delete()
+            else:
+                return HttpResponse('<h1>Invalid Data</h1>')
+    plan_routes = PlanRoute.objects.all()
+    routes = Route.objects.all()
+    return HttpResponse(template.render({'plan_routes': plan_routes, 'routes': routes}, request))
