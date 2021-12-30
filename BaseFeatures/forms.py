@@ -112,3 +112,9 @@ class DeleteUser(forms.Form):
     usernameDelete = forms.CharField(max_length=100)
 
 
+class SearchRoute(forms.Form):
+    startStationID = forms.CharField(max_length=100)
+    destinationStationID = forms.CharField(max_length=100)
+    dateSearch = forms.DateField()
+
+

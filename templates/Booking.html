@@ -79,7 +79,7 @@ table {
 
         <div class="card">
             <div class="login-box">
-                <div class="login-snip"> <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">TICKET</label> <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab"></label>
+                <div class="login-snip"> <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">TICKET</label> <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">SEARCH</label>
                     <div class="login-space">
                         <form action="" method="POST">
                             {% csrf_token %}
@@ -110,7 +110,28 @@ table {
                                                                                            {%endfor%}
                                                                                            </select> </div>
                                 <br>
-                                <div class="group"> <input type="submit" name ="reserve" class="button" value="RESERVE"> </div>
+                                <div class="group"> <input type="submit" name="reserve" class="button" value="RESERVE"> </div>
+                            </div>
+                        </form>
+                        <div class="login-space">
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <div class="sign-up-form">
+                                <div class="group"> <label class="label">Start station</label><select id="startStationID" name="startStationID" type="text" class="input" placeholder="Start" required="" >
+                                                                                           {%for i in stations%}
+                                                                                           <option value="{{i.id}}">{{i.stationName}}</option>
+                                                                                           {%endfor%}
+                                                                                           </select> </div>
+                                    <div class="group"> <label class="label">Destination station</label> <select id="destinationStationID" name="destinationStationID" type="text" class="input" placeholder="Destination" required="" >
+                                                                                           {%for i in stations%}
+                                                                                           <option value="{{i.id}}">{{i.stationName}}</option>
+                                                                                           {%endfor%}
+                                                                                           </select> </div>
+
+                                <div class="group"> <label class="label">Date</label>
+                                    <input id="dateSearch" name="dateSearch" type="date" class="input" placeholder="Date" required="" > </div>
+                                <br>
+                                <div class="group"> <input type="submit" name="search" class="button" value="SEARCH"> </div>
                             </div>
                         </form>
 

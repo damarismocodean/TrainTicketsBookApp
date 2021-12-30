@@ -7,10 +7,12 @@ from Home.models import Person
 from .forms import AddNewStation, AddNewTrain, AddNewRoute, AddNewPlanRoute, AddNewPayment, AddNewNotification, \
     DeleteTrain, \
     ModifyTrain, DeleteStation, ModifyStation, DeleteRoute, ModifyRoute, ModifyPlanRoute, DeletePlanRoute, \
-    AddNewBooking, DeleteBooking, DeleteUser, ModifyDataUser
+    AddNewBooking, DeleteBooking, DeleteUser, ModifyDataUser, SearchRoute
 from django.template import loader
-from .models import Station, Train, Route, PlanRoute, PaymentUser, Booking, NotificationsUser
 
+from .iterator import DatabaseCollection
+from .models import Station, Train, Route, PlanRoute, PaymentUser, Booking, NotificationsUser
+from datetime import date, datetime
 
 class DRoute:
     train1 = Train()
@@ -266,34 +268,63 @@ def view_plan_routes(request):
                 plan_route.delete()
             else:
                 return HttpResponse('<h1>Invalid Data</h1>')
-    plan_routes = PlanRoute.objects.all()
     routes = Route.objects.all()
-    return HttpResponse(template.render({'plan_routes': plan_routes, 'routes': routes}, request))
+
+    dc = DatabaseCollection(list(PlanRoute.objects.all()))
+    reversed_plan_routes = []
+    for i in dc:
+        reversed_plan_routes.append(i)
+    return HttpResponse(template.render({'plan_routes': reversed_plan_routes, 'routes': routes}, request))
+
 
 def add_new_booking(request):
     template = loader.get_template('Booking.html')
+    search = False
     if request.method == 'POST':
-            form = AddNewBooking(request.POST)
-            if form.is_valid():
-                data = form.cleaned_data
+        if 'reserve' in request.POST:
+            form_search = SearchRoute()
+            form_booking = AddNewBooking(request.POST)
+            if form_booking.is_valid():
+                data = form_booking.cleaned_data
                 booking = Booking()
                 if request.user.is_authenticated:
-                     booking.userID = Person.objects.get(pk=request.user.id - 1)
-                     id = data['hiddenId']
-                     plan_route = PlanRoute.objects.get(pk=id)
-                     booking.routeID = plan_route
-                     print(booking.routeID.id)
-                     booking.paymentID = PaymentUser.objects.get(pk=data['cardName'])
-                     booking.save()
+                    booking.userID = Person.objects.get(pk=request.user.id - 1)
+                    id = data['hiddenId']
+                    plan_route = PlanRoute.objects.get(pk=id)
+                    booking.routeID = plan_route
+                    print(booking.routeID.id)
+                    booking.paymentID = PaymentUser.objects.get(pk=data['cardName'])
+                    booking.save()
                 else:
                     print("the user is not authenticated")
             else:
                 return HttpResponse('<h1>Invalid Data</h1>')
+        elif 'search' in request.POST:
+            form_booking = AddNewBooking()
+            form_search = SearchRoute(request.POST)
+            if form_search.is_valid():
+                data = form_search.cleaned_data
+                s1Id = data['startStationID']
+                s2Id = data['destinationStationID']
+                date = data['dateSearch']
+                routes = Route.objects.all().filter(startStationID=s1Id,destinationStationID=s2Id)
+                routesIds = []
+                for r in routes:
+                    routesIds.append(r.id)
+                searchPlanedRoutes = PlanRoute.objects.all().filter(routeID=tuple(routesIds), date=date)
+                search = True
+            else:
+                return HttpResponse('<h1>Invalid form</h1>')
     if request.user.is_authenticated:
-        personA=Person.objects.get(pk=request.user.id - 1)
-        payments=PaymentUser.objects.all().filter(userID=personA)
-        plannedroutes=PlanRoute.objects.all()
-    return HttpResponse(template.render({'personA': personA, 'payments': payments, 'routes':plannedroutes}, request))
+        stations = Station.objects.all()
+        personA = Person.objects.get(pk=request.user.id - 1)
+        payments = PaymentUser.objects.all().filter(userID=personA)
+        if search:
+            planedroutes = searchPlanedRoutes
+        else:
+            planedroutes = PlanRoute.objects.all()
+    return HttpResponse(template.render({'personA': personA, 'payments': payments, 'routes': planedroutes, 'stations': stations}, request))
+
 
 def view_bookings(request):
     template = loader.get_template('ViewBookings.html')
@@ -302,14 +333,21 @@ def view_bookings(request):
         if form.is_valid():
             data = form.cleaned_data
             id = data['hiddenId']
-            book=Booking.objects.get(pk=id)
+            book = Booking.objects.get(pk=id)
+            plan_route = PlanRoute.objects.all().get(pk=book.routeID.id)
+            print(plan_route.date)
+            today = date.today()
+            date_reservation = datetime.strptime(plan_route.date, '%Y-%m-%d').date()
+            print((date_reservation - today).days)
+            if (date_reservation-today).days < 2:
+                return HttpResponse('<h1>Can not cancel this reservation. Too late</h1>')
             book.delete()
         else:
             return HttpResponse('<h1>Invalid Data</h1>')
-    if request.user.is_authenticated:
-        bookings=Booking.objects.all().filter(userID=request.user.id - 1)
-    return HttpResponse(template.render({'bookings' : bookings}, request))
 
+    if request.user.is_authenticated:
+        bookings = Booking.objects.all().filter(userID=request.user.id - 1)
+    return HttpResponse(template.render({'bookings': bookings}, request))
 
 
 def view_users(request):
